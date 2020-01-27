@@ -12,12 +12,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Location;
 import model.MainModel;
 
 import java.time.*;
 
 
 public class View extends Application {
+
+    private static final String LOCATION = "Bochum";
 
     MainModel mainModel = new MainModel();
     MainController mainController = new MainController(mainModel);
@@ -55,11 +58,14 @@ public class View extends Application {
         grid.add(secondSpinner, 3, 2);
 
         Label labelLocation = new Label("Location:");
+        // TODO: remove coord fields
         grid.add(labelLocation, 0, 3);
         TextField textFieldLocation1 = new TextField();
         grid.add(textFieldLocation1, 1, 3);
         TextField textFieldLocation2 = new TextField();
         grid.add(textFieldLocation2, 2, 3);
+        ChoiceBox<Location> locationChoiceBox = new ChoiceBox<>();
+        locationChoiceBox.getItems().addAll(mainModel.getLocations());
 
         Button button = new Button("Start");
         HBox hbButton = new HBox(10);
@@ -85,6 +91,8 @@ public class View extends Application {
             LocalDate localDate = datePicker.getValue();
             LocalTime localTime = LocalTime.of(hourSpinner.getValue(), minuteSpinner.getValue(), secondSpinner.getValue());
             ZonedDateTime zonedDateTime = ZonedDateTime.of(localDate, localTime, ZoneId.of("GMT"));
+
+            // TODO: get Location from locationChoiceBox
 
             mainController.sunPosition(zonedDateTime);
         });
